@@ -1,18 +1,19 @@
 from pydantic import BaseModel, EmailStr, Field
+from app.schemas import PatientSummary
+from typing import List
 
 class ClinicUserBase(BaseModel):
     username: str = Field(..., example="user123")
     email: EmailStr = Field(..., example="useremail@example.com")
-    name: str = Field(..., example="Carlos")
-    lastName: str = Field(..., example="Gonzalez")
+    first_name: str = Field(..., example="Carlos")
+    last_name: str = Field(..., example="Gonzalez")
 
 class ClinicUserCreate(ClinicUserBase):
     password: str = Field(..., example="12345")
 
-class ClinicUser(ClinicUserBase):
+class ClinicUserResponse(ClinicUserBase):
     id: int
-    patients: List[] = Field(default_factory=list)
-    #fix this!
+    patients: List[PatientSummary] = Field(default_factory=list)
 
     class Config:
         orm_mode = True
