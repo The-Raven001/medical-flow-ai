@@ -1,5 +1,5 @@
-from pydantic import BaseModel, EmailStr, Field
-from app.schemas import PatientSummary
+from pydantic import BaseModel, EmailStr, Field, ConfigDict
+from app.schemas.patient_schemas import PatientSummary
 from typing import List
 
 class ClinicUserBase(BaseModel):
@@ -9,18 +9,18 @@ class ClinicUserBase(BaseModel):
     last_name: str = Field(..., example="Gonzalez")
 
 class ClinicUserCreate(ClinicUserBase):
-    password: str = Field(..., example="12345")
+    password: str = Field(..., min_length=8, example="12345")
 
 class ClinicUserResponse(ClinicUserBase):
     id: int
-    patients: List[PatientSummary] = Field(default_factory=list)
 
-    class Config:
-        orm_mode = True
+    model_config = ConfigDict(from_attributes=True)
+
+        
 
 class ClinicUserLogin(BaseModel):
     email: EmailStr = Field(..., example= "useremail@example.com")
-    password: str = Field(..., example="12345")
+    password: str = Field(..., min_length=8, example="12345")
 
 class Token(BaseModel):
     access_token: str = Field(..., example="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJnYWNtOTUyMThAZ21haWwuY29t")

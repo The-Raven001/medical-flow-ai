@@ -1,10 +1,20 @@
-from Pydantic import BaseModel, EmailStr, Field
+from pydantic import BaseModel, EmailStr, Field, DateTime
+from sqlalchemy.sql import func
 
 class PatientBase(BaseModel):
     email: EmailStr = Field(..., example="useremail@example.com")
-    name: str = Field(..., example="Carlos")
-    lastName: str = Field(...., example="Gonzalez")
+    first_name: str = Field(..., example="Carlos")
+    last_name: str = Field(...., example="Gonzalez")
+    date_of_birth: Column(DateTime(timezone=True), server_default=func.now(), nullable=False)
+    gender: str = Field(..., example="male")
+    preferred_language: str = Field(..., example="Mandarin")
+    intake_status: str = Field(..., example="pending")
+    emergency_contact_name: str = Field(..., example="Luis Medina")
+    emergency_contact_phone_number: str = Field(..., example="+13233233230")
+    insurance_provider: str = Field(..., example="Anthem Blue Cross")
+    insurance_id: str = Field(..., example="JQO123456789")
     chart: int
+
 
 
 class PatientSummary(BaseModel):
@@ -12,6 +22,5 @@ class PatientSummary(BaseModel):
     first_name: str
     last_name: str
 
-    class Config:
-        from_attributes = True
+    model_config = ConfigDict(from_attributes=True)
 
