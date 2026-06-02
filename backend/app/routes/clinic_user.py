@@ -28,12 +28,10 @@ def create_clinic_user(user: schemas.ClinicUserCreate, db: Session = Depends(get
             status_code=400,
             detail="Email already registered or username already in use"
         )
-
-
-
     hashed_password = hash_password(user.password)
     new_clinic_user = models.ClinicUser(username=user.username, first_name=user.first_name, last_name=user.last_name, email=user.email, hashed_password=hashed_password)
     db.add(new_clinic_user)
     db.commit()
     db.refresh(new_clinic_user)
     return new_clinic_user
+
