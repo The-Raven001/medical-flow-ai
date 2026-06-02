@@ -3,7 +3,7 @@ from sqlalchemy.orm import relationship
 from app.database import Base
 
 class Patient(Base):
-    __tablename__ = "clinic_user"
+    __tablename__ = "patient"
     id = Column(Integer, primary_key=True, index=True)
 
     first_name = Column(String, nullable=False)
@@ -23,7 +23,7 @@ class Patient(Base):
     provider_id = Column(
         Integer,
         ForeignKey("clinic_user.id"),
-        nullable=False.
+        nullable=False,
         unique=True
     )
 
@@ -32,4 +32,4 @@ class Patient(Base):
         back_populates="patients"
     )
 
-    notes = List()
+    notes = relationship("Note", back_populates="patient", cascade="all, delete-orphan")
