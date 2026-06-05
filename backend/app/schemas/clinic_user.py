@@ -1,5 +1,5 @@
 from pydantic import BaseModel, EmailStr, Field, ConfigDict
-from app.schemas.patient_schemas import PatientSummary
+from app.schemas.patients import PatientSummary
 from typing import List
 
 class ClinicUserBase(BaseModel):
