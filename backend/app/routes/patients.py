@@ -111,3 +111,4 @@ def delete_patient(id: int, db: Session = Depends(get_db)):
         raise HTTPException(status_code=404, detail="patient not found")
     db.delete(patient)
     db.commit()
+    return {"message":"Patient profile deleted successfully"}
