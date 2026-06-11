@@ -2,7 +2,7 @@ from pydantic import BaseModel, EmailStr, Field, ConfigDict
 from sqlalchemy.sql import func
 from datetime import datetime
 
-class PatientBase(BaseModel):
+class PatientsBase(BaseModel):
     email: EmailStr = Field(..., example="useremail@example.com")
     first_name: str = Field(..., example="Carlos")
     last_name: str = Field(..., example="Gonzalez")
@@ -18,7 +18,7 @@ class PatientBase(BaseModel):
 
 
 
-class PatientSummary(BaseModel):
+class PatientsSummary(BaseModel):
     id: int
     first_name: str
     last_name: str

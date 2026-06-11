@@ -1,22 +1,22 @@
 from fastapi import APIRouter, Depends, HTTPException
 from app.database import get_db
 from sqlalchemy.orm import Session
-from app.schemas import intake as schemas
-from backend.app.models import intake as models
+from app.schemas import intakes as schemas
+from app.models.intakes import Intakes
 
 router = APIRouter(prefix="/intake", tags=["Intake"])
 
 #Create intake notes
 
 @router.post("/",
-    response_model=schemas.Intake,
+    response_model=schemas.Intakes,
     status_code=200,
     summary="Create a new intake note",
     description=""       
     )
-def create_intake(intake: schemas.Intake, db: Session = Depends(get_db)):
+def create_intake(intake: schemas.Intakes, db: Session = Depends(get_db)):
     
-    new_intake = models.Intake(
+    new_intake = Intakes(
         title=intake.title,
         description=intake.description,
         patient_id=intake.patient_id
@@ -29,25 +29,25 @@ def create_intake(intake: schemas.Intake, db: Session = Depends(get_db)):
 #Retrieve intake notes
 
 @router.get("/",
-    response_model=schemas.Intake,
+    response_model=schemas.Intakes,
     status_code=200,
     summary="Retrieve intake notes",    
     description=""
     )
 def get_intakes(db: Session = Depends(get_db)):
-    notes = db.query(models.Intake).all()
+    notes = db.query(Intakes).all()
     return notes
 
 
 @router.get("/{id}",
-    response_model=schemas.Intake,
+    response_model=schemas.Intakes,
     status_code=200,
     summary="Retrieve particular intake note",
     description=""
     )
 def get_intake(id: int, db: Session = Depends(get_db)):
 
-    intake = db.query(models.Intake).filter(models.Intake.id == id).first()
+    intake = db.query(Intakes).filter(Intakes.id == id).first()
 
     if not intake:
         raise HTTPException(status_code=404, detail="Intake note not found")
@@ -56,14 +56,14 @@ def get_intake(id: int, db: Session = Depends(get_db)):
 #Update intake note
 
 @router.put("/{id}",
-    response_model=schemas.Intake,
+    response_model=schemas.Intakes,
     status_code=200,
     summary="Edit selected intake note",
     description=""
     )
-def update_intake(id: int, updated_intake: schemas.IntakeUpdate, db: Session = Depends(get_db)):
+def update_intake(id: int, updated_intake: schemas.IntakesUpdate, db: Session = Depends(get_db)):
 
-    intake = db.query(models.Intake).filter(models.Intake.id == id).first()
+    intake = db.query(Intakes).filter(Intakes.id == id).first()
 
     if not intake:
         raise HTTPException(status_code=404, detail="Intake note not found")
@@ -79,14 +79,14 @@ def update_intake(id: int, updated_intake: schemas.IntakeUpdate, db: Session = D
 #Delete intake note
 
 @router.delete("/{id}",
-    response_model=schemas.Intake,
+    response_model=schemas.Intakes,
     status_code=200,
     summary="Delete selected intake note",
     description=""
     )
 def delete_intake(id: int, db: Session = Depends(get_db)):
 
-    intake = db.query(models.Intake).filter(models.Intake.id == id).first()
+    intake = db.query(Intakes).filter(Intakes.id == id).first()
 
     if not intake:
         raise HTTPException(status_code=404, detail="Intake note not found")
