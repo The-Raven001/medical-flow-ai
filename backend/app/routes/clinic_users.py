@@ -4,8 +4,7 @@ from sqlalchemy import or_
 from sqlalchemy.orm import Session
 from app.schemas import clinic_users as schemas
 from app.models.clinic_users import ClinicUsers
-from app.models.patients import Patients
-from app.models.intakes import Intakes
+
 from app.utils.password_verification import hash_password, verify_password
 
 

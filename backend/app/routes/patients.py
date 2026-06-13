@@ -12,7 +12,7 @@ router = APIRouter(prefix="/patients", tags=["Patients"])
     response_model=schemas.PatientsBase,
     status_code=201,
     summary="Create a new patient profile",
-    description=""
+    description="Create a new profile for a patient taking their demographics and relevant information in order to be stored in the database."
     )
 def create_patient(patient: schemas.PatientsBase, db: Session = Depends(get_db)):
 
@@ -44,7 +44,7 @@ def create_patient(patient: schemas.PatientsBase, db: Session = Depends(get_db))
     response_model=schemas.PatientsSummary,
     status_code=200,
     summary="Retrieve shallow data from patients",
-    description="" 
+    description="Retrieve all patients based on common identifiers." 
     )
 def get_patients(db: Session = Depends(get_db)):
     return db.query(Patients).all()
@@ -69,7 +69,7 @@ def get_patient(id: int, db: Session = Depends(get_db)):
     response_model=schemas.PatientsBase,
     status_code=200,
     summary="Update data of a given patient",
-    description=""
+    description="Modify given data of a patient filtered by the id of the patient stored in the database."
     )
 def update_patient(id: int, updated_patient:schemas.PatientBase, db: Session = Depends(get_db)):
 
@@ -101,7 +101,7 @@ def update_patient(id: int, updated_patient:schemas.PatientBase, db: Session = D
     response_model=schemas.PatientsBase,
     status_code=200,
     summary="Delete all the data of a given patient",
-    description=""
+    description="Erase all data from the referred patient, patient is filtered based on the id related to him in the database."
     )
 def delete_patient(id: int, db: Session = Depends(get_db)):
 

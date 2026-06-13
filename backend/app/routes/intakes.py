@@ -12,7 +12,7 @@ router = APIRouter(prefix="/intake", tags=["Intake"])
     response_model=schemas.Intakes,
     status_code=200,
     summary="Create a new intake note",
-    description=""       
+    description="Create a new intake note from the patient that will be sent to the provider after being summarized by AI."       
     )
 def create_intake(intake: schemas.Intakes, db: Session = Depends(get_db)):
     
@@ -32,7 +32,7 @@ def create_intake(intake: schemas.Intakes, db: Session = Depends(get_db)):
     response_model=schemas.Intakes,
     status_code=200,
     summary="Retrieve intake notes",    
-    description=""
+    description="Retrieve all intake notes from registered patients."
     )
 def get_intakes(db: Session = Depends(get_db)):
     notes = db.query(Intakes).all()
@@ -43,7 +43,7 @@ def get_intakes(db: Session = Depends(get_db)):
     response_model=schemas.Intakes,
     status_code=200,
     summary="Retrieve particular intake note",
-    description=""
+    description="Retrieve a certain note filtered by note id."
     )
 def get_intake(id: int, db: Session = Depends(get_db)):
 
@@ -59,7 +59,7 @@ def get_intake(id: int, db: Session = Depends(get_db)):
     response_model=schemas.Intakes,
     status_code=200,
     summary="Edit selected intake note",
-    description=""
+    description="Modify selected noted filtered by note id."
     )
 def update_intake(id: int, updated_intake: schemas.IntakesUpdate, db: Session = Depends(get_db)):
 
@@ -82,7 +82,7 @@ def update_intake(id: int, updated_intake: schemas.IntakesUpdate, db: Session = 
     response_model=schemas.Intakes,
     status_code=200,
     summary="Delete selected intake note",
-    description=""
+    description="Erase specified note of a patient, filtered by note id."
     )
 def delete_intake(id: int, db: Session = Depends(get_db)):
 

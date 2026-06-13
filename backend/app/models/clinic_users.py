@@ -2,6 +2,8 @@ from sqlalchemy import Column, Integer, String, Boolean, ForeignKey, DateTime
 from sqlalchemy.orm import relationship
 from sqlalchemy.sql import func
 from app.database import Base
+from app.models.patients import Patients
+from app.models.intakes import Intakes
 
 class ClinicUsers(Base):
     __tablename__ = "clinic_users"
