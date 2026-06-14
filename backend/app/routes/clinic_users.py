@@ -39,7 +39,7 @@ def create_clinic_user(user: schemas.ClinicUsersCreate, db: Session = Depends(ge
 #Retrieve users data all/individually
 
 @router.get("/",
-    response_model=schemas.ClinicUsersResponse,
+    response_model=list[schemas.ClinicUsersResponse],
     status_code=200,
     summary="Retrieve all users data",
     description="Request to retrieve all data of created users to current date."        
@@ -87,7 +87,7 @@ def update_user(id: int, updated_user: schemas.ClinicUsersCreate, db: Session = 
     return user
     
 @router.delete("/{id}",
-    response_model=list[schemas.ClinicUsersResponse],
+    response_model=dict,
     status_code=200,
     summary="Delete all the data of a speficied user",
     description="Delete name, last name, username, email and password of provided user using id.")
@@ -99,7 +99,7 @@ def delete_user(id: int, db: Session = Depends(get_db)):
         raise HTTPException(status_code=404, detail="User not found")
     db.delete(user)
     db.commit()
-    return{"message":"user has been deleted successfully"}
+    return {"message":"user has been deleted successfully"}
 
     
     
