@@ -6,7 +6,10 @@ class IntakesBase(BaseModel):
     title: str = Field(..., min_length=1, max_length=100, example="New patient notes")
     description: str = Field(max_length=2000, example="Patient has asthma, difficulty breathing and nasal congestion.")
 
-class Intakes(IntakesBase):
+class IntakesCreate(IntakesBase):
+    patient_id: int
+
+class IntakesResponse(IntakesBase):
     id: int
     patient_id: int
     created_at: datetime
