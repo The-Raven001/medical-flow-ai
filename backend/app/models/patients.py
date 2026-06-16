@@ -10,6 +10,7 @@ class Patients(Base):
     last_name = Column(String, nullable=False)
     date_of_birth = Column(DateTime, nullable=False)
     gender = Column(String, nullable=False)
+    phone_number = Column(String, nullable=False)
     address = Column(String, nullable=False)
     preferred_language = Column(String)
     intake_status = Column(String, nullable=False, default="pending")

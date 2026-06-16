@@ -7,6 +7,7 @@ class PatientsBase(BaseModel):
     first_name: str = Field(..., example="Carlos")
     last_name: str = Field(..., example="Gonzalez")
     date_of_birth: datetime
+    phone_number: str = Field(..., example="+1 123456789")
     gender: str = Field(..., example="male")
     preferred_language: str = Field(..., example="Mandarin")
     intake_status: str = Field(..., example="pending")

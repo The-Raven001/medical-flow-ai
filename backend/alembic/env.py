@@ -7,6 +7,11 @@ from alembic import context
 
 from app.database import Base
 
+
+from app.models.patients import Patients
+from app.models.clinic_users import ClinicUsers
+from app.models.intakes import Intakes
+
 # this is the Alembic Config object, which provides
 # access to the values within the .ini file in use.
 config = context.config

@@ -20,6 +20,7 @@ def create_patient(patient: schemas.PatientsBase, db: Session = Depends(get_db))
         first_name=patient.first_name,
         last_name=patient.last_name,
         date_of_birth=patient.date_of_birth,
+        phone_number=patient.phone_number,
         gender=patient.gender,
         address=patient.address,
         preferred_language=patient.preferred_language,
