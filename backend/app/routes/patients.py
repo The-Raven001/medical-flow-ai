@@ -30,7 +30,7 @@ def create_patient(patient: schemas.PatientsBase, db: Session = Depends(get_db))
         insurance_provider=patient.insurance_provider,
         insurance_id=patient.insurance_id,
         email=patient.email,
-        prorvider_id=patient.provider_id
+        provider_id=patient.provider_id
 
     )
 
@@ -42,7 +42,7 @@ def create_patient(patient: schemas.PatientsBase, db: Session = Depends(get_db))
 #Get all patient or individually.
 
 @router.get("/",
-    response_model=schemas.PatientsSummary,
+    response_model=list[schemas.PatientsSummary],
     status_code=200,
     summary="Retrieve shallow data from patients",
     description="Retrieve all patients based on common identifiers." 
@@ -72,7 +72,7 @@ def get_patient(id: int, db: Session = Depends(get_db)):
     summary="Update data of a given patient",
     description="Modify given data of a patient filtered by the id of the patient stored in the database."
     )
-def update_patient(id: int, updated_patient:schemas.PatientBase, db: Session = Depends(get_db)):
+def update_patient(id: int, updated_patient:schemas.PatientsBase, db: Session = Depends(get_db)):
 
     patient = db.query(Patients).filter(Patients.id == id).first()
 
@@ -99,7 +99,7 @@ def update_patient(id: int, updated_patient:schemas.PatientBase, db: Session = D
     return patient
 
 @router.delete("/{id}",
-    response_model=schemas.PatientsBase,
+    response_model=dict,
     status_code=200,
     summary="Delete all the data of a given patient",
     description="Erase all data from the referred patient, patient is filtered based on the id related to him in the database."

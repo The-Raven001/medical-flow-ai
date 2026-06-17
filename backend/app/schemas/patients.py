@@ -8,6 +8,7 @@ class PatientsBase(BaseModel):
     last_name: str = Field(..., example="Gonzalez")
     date_of_birth: datetime
     phone_number: str = Field(..., example="+1 123456789")
+    address: str = Field(..., example="9999 1st street ")
     gender: str = Field(..., example="male")
     preferred_language: str = Field(..., example="Mandarin")
     intake_status: str = Field(..., example="pending")
@@ -15,7 +16,7 @@ class PatientsBase(BaseModel):
     emergency_contact_phone_number: str = Field(..., example="+13233233230")
     insurance_provider: str = Field(..., example="Anthem Blue Cross")
     insurance_id: str = Field(..., example="JQO123456789")
-    chart: int
+    provider_id: int
 
 
 
