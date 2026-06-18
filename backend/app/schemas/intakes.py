@@ -1,9 +1,9 @@
-from pydantic import BaseModel, EmailStr, Field, ConfigDict
-from typing import List, Optional
+from pydantic import BaseModel, Field
+from typing import Optional
 from datetime import datetime
 
 class IntakesBase(BaseModel):
-    title: str = Field(..., min_length=1, max_length=100, example="New patient notes")
+    title: str = Field(..., min_length=1, max_length=100, example="New patient intake")
     description: str = Field(max_length=2000, example="Patient has asthma, difficulty breathing and nasal congestion.")
 
 class IntakesCreate(IntakesBase):
