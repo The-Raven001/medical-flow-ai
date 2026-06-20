@@ -76,7 +76,6 @@ def update_intake(id: int, updated_intake: schemas.IntakesUpdate, db: Session = 
     
     intake.title = updated_intake.title
     intake.description = updated_intake.description
-    intake.patient_id = updated_intake.patient_id
 
     db.commit()
     db.refresh(intake)

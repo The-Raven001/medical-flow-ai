@@ -19,4 +19,5 @@ class NotesResponse(NotesBase):
 class NotesUpdate(NotesBase):
     title: Optional[str] = None
     content: Optional[str] = None
+    clinic_user_id: int
     last_edited: datetime
