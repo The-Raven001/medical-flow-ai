@@ -1,4 +1,4 @@
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field, ConfigDict
 from typing import Optional
 from datetime import datetime
 
@@ -15,6 +15,9 @@ class NotesResponse(NotesBase):
     patient_id: int
     clinic_user_id: int
     created_at: datetime
+    last_edited: datetime
+
+    model_config = ConfigDict(from_attributer=True)
 
 class NotesUpdate(NotesBase):
     title: Optional[str] = None
