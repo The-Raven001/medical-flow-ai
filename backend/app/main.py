@@ -11,7 +11,7 @@ import app.schemas.clinic_users as schemas
 from app.schemas.token import Token
 from app.routes.auth import create_access_token, get_current_user
 from app.utils.password_verification import hash_password, verify_password
-
+from app.schemas.token import LoginRequest
 import app.models
 
 Base.metadata.create_all(bind=engine)
@@ -36,9 +36,9 @@ def root():
     return {"message": "Backend running"}
 
 @app.post("/login", response_model=Token)
-async def login(form_data: OAuth2PasswordRequestForm = Depends(), db: Session = Depends(get_db)):
-    user = db.query(ClinicUsers).filter(ClinicUsers.username == form_data.username).first()
-    if not user or not verify_password(form_data.password, user.hashed_password):
+async def login(credentials: LoginRequest, db: Session = Depends(get_db)):
+    user = db.query(ClinicUsers).filter(ClinicUsers.username == credentials.username).first()
+    if not user or not verify_password(credentials.password, user.hashed_password):
         raise HTTPException(status_code=401, detail="Incorrect username or password")
     token = create_access_token({"sub": user.username})
     return {"access_token": token, "token_type": "bearer"}
