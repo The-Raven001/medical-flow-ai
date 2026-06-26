@@ -1,10 +1,13 @@
+alembic
+anthropic
+ollama
 fastapi
 uvicorn
 sqlalchemy
 psycopg2-binary
 python-dotenv
 pydantic
-python-jose
 passlib[bcrypt]
 openai
 httpx
+PyJWT

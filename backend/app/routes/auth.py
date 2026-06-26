@@ -1,46 +1,24 @@
-import os
-import jwt
-from datetime import datetime, timedelta, timezone
-from typing import Optional
-from fastapi import Depends, HTTPException, status
-from fastapi.security import OAuth2PasswordBearer
+from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 from app.database import get_db
 from app.models.clinic_users import ClinicUsers
+from app.utils.password_verification import hash_password, verify_password
+from app.utils.token import create_access_token, get_current_user
+from app.schemas.token import LoginRequest
+from app.schemas.token import Token
+from app.schemas.clinic_users import ClinicUsersResponse
 
+router = APIRouter(prefix="/auth", tags=["Auth"])
 
-SECRET_KEY = os.environ["SECRET_KEY"]
-ALGORITHM = "HS256"
-ACCESS_TOKEN_EXPIRE_MINUTES = 30
+@router.post("/login", response_model=Token)
+async def login(credentials: LoginRequest, db: Session = Depends(get_db)):
+    user = db.query(ClinicUsers).filter(ClinicUsers.username == credentials.username).first()
+    if not user or not verify_password(credentials.password, user.hashed_password):
+        raise HTTPException(status_code=401, detail="Incorrect username or password")
+    token = create_access_token({"sub": user.username})
+    return {"access_token": token, "token_type": "bearer"}
 
-oauth2_scheme = OAuth2PasswordBearer(tokenUrl="login")
-
-def create_access_token(data: dict, expires_delta: Optional[timedelta] = None) -> str:
-    to_encode = data.copy()
-    expire = datetime.now(timezone.utc) + (expires_delta or timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES))
-    to_encode.update({"exp": expire})
-    return jwt.encode(to_encode, SECRET_KEY, algorithm=ALGORITHM)
-
-async def get_current_user(token: str = Depends(oauth2_scheme), db: Session = Depends(get_db)) -> ClinicUsers:
+@router.get("/me", response_model=ClinicUsersResponse)
+async def read_me(current_user: ClinicUsers = Depends(get_current_user)):
+    return current_user
     
-    credentials_exception = HTTPException(
-        status_code=status.HTTP_401_UNAUTHORIZED,
-        detail="Could not validate credentials",
-        headers={"WWW-Authenticate": "Bearer"},
-    )
-    try:
-        payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
-        username: Optional[str] = payload.get("sub")
-        if username is None:
-            raise credentials_exception
-    except jwt.ExpiredSignatureError:
-        raise HTTPException(
-            status_code=status.HTTP_401_UNAUTHORIZED, detail="Token has expired", headers={"WWW-Authenticate": "Bearer"},
-        )
-    except jwt.InvalidTokenError:
-        raise credentials_exception
-    
-    user = db.query(ClinicUsers).filter(ClinicUsers.username == username).first()
-    if user is None:
-        raise credentials_exception
-    return user
