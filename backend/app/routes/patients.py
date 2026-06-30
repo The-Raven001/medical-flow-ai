@@ -54,7 +54,7 @@ def get_patients(db: Session = Depends(get_db)):
     response_model=schemas.PatientsBase,
     status_code=201,
     summary="Retrieve all data from one patient.",
-    description=""
+    description="Retrieve a certain patient based filtered by id."
     )
 def get_patient(id: int, db: Session = Depends(get_db)):
 
