@@ -1,6 +1,4 @@
 
-
-
 export function Register() {
 
     return (
@@ -14,6 +12,17 @@ export function Register() {
                 placeholder="username"
                 className="border p-2 rounded"
                 required />
+
+                <input type="text"
+                placeholder="first name"
+                className="border p-2 rounded"
+                required />
+
+                <input type="text"
+                placeholder="last name"
+                className="border p-2 rounded"
+                required
+                />
 
                 <input 
                 type="email"
