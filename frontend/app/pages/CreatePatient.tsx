@@ -1,5 +1,22 @@
 import { useState } from "react"
 
+interface RegisterPayload {
+    first_name: string
+    last_name: string
+    date_of_birth: string
+    gender: string
+    phone_number: string
+    email: string
+    address: string
+    preferred_language: string
+    intake_status: string
+    emergency_contact_name: string
+    emergency_contact_phone_number: string
+    insurance_provider: string
+    insurance_id: string
+    provider_id: string
+}
+
 export function CreatePatient() {
 
     const [firstName, setFirstName] = useState("")
@@ -16,12 +33,55 @@ export function CreatePatient() {
     const [insuraceProvider, setInsuranceProvider] = useState("")
     const [insuranceId, setInsuranceId] = useState("")
     const [providerId, setProviderId] = useState("")
+    
+    const [error, setError]= useState<string | null>(null)
+    const [loading, setLoading] = useState(false)
 
+    const payload: RegisterPayload = {
+        first_name: firstName,
+        last_name: lastName,
+        date_of_birth: dateOfBirth,
+        gender,
+        phone_number: phoneNumber,
+        email,
+        address,
+        preferred_language: preferredLanguage,
+        intake_status: intakeStatus,
+        emergency_contact_name: emergencyContactName,
+        emergency_contact_phone_number: emergencyContactPhoneNumber,
+        insurance_provider: insuraceProvider,
+        insurance_id: insuranceId,
+        provider_id: providerId
+    }
+
+    const handlesubmit = async (event: React.SubmitEvent<HTMLFormElement>) =>{
+        event.preventDefault
+        setLoading(true)
+        setError(null)
+
+        try{
+            const response = await fetch(`${process.env.NEXT_PUBLIV_API_URL}/patients`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application.json",
+                },
+                body: JSON.stringify(payload)
+            })
+            if (!response.ok){
+                throw new Error("Failed to create profile of patient")
+        }
+        }
+        catch (err){
+            setError("Registration failed")
+        } finally {setLoading(false)}
+    }
 
     return (
         <div className="flex flex-col items-center items-center">
             <h1>Register patient</h1>
-            <form className="flex flex-col mt-20 gap-4">
+            <form 
+            className="flex flex-col mt-20 gap-4"
+            onSubmit={handlesubmit}>
                 <input type="text"
                 className="border p-2 rounded"
                 placeholder="first name"
