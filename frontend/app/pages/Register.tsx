@@ -29,7 +29,7 @@ export function Register() {
             first_name: firstName,
             last_name: lastName,
             email,
-            password,
+            password
         }
 
         try{
