@@ -1,6 +1,6 @@
 import { useState } from "react"
 
-interface RegisterPayload {
+interface UpdatePayload {
     first_name: string
     last_name: string
     date_of_birth: string
@@ -17,7 +17,9 @@ interface RegisterPayload {
     provider_id: string
 }
 
-export function CreatePatient() {
+// Function to load current patient is missing
+
+export function EditPatient() {
 
     const [firstName, setFirstName] = useState("")
     const [lastName, setLastName] = useState("")
@@ -37,7 +39,7 @@ export function CreatePatient() {
     const [error, setError]= useState<string | null>(null)
     const [loading, setLoading] = useState(false)
 
-    const payload: RegisterPayload = {
+    const payload: UpdatePayload = {
         first_name: firstName,
         last_name: lastName,
         date_of_birth: dateOfBirth,
@@ -60,7 +62,7 @@ export function CreatePatient() {
         setError(null)
 
         try{
-            const response = await fetch(`${process.env.NEXT_PUBLIV_API_URL}/patients`, {
+            const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/patients`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application.json",
@@ -78,7 +80,7 @@ export function CreatePatient() {
 
     return (
         <div className="flex flex-col items-center items-center">
-            <h1>Register patient</h1>
+            <h1>Update patient</h1>
             <form 
             className="flex flex-col mt-20 gap-4"
             onSubmit={handlesubmit}>
@@ -181,6 +183,7 @@ export function CreatePatient() {
                 onChange={(event) => setProviderId(event.target.value)}
                 required />
             </form>
+            <button type="submit" className="border p-2 rounded">Update</button>
         </div>
     )
 }
