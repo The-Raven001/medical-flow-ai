@@ -16,23 +16,26 @@ export function ChangePassword() {
     const [newReEnteredPassword, setNewReEnteredPassword] = useState("")
 
     return(
-        <div className="">
+        <div className="flex flex-col items-center items-center">
             <h1>Update password</h1>
 
             <form>
                 <input type="text"
+                 className="border p-2 rounded"
                  placeholder="Enter current password" 
                  value={password}
                  onChange={(event) => setPassword(event.target.value)}
                  />
 
                  <input type="text"
+                 className="border p-2 rounded"
                  placeholder="Enter new password"
                  value={newPassword}
                  onChange={(event) => setNewPassword(event.target.value)}
                   />
 
                   <input type="text" 
+                  className="border p-2 rounded"
                   placeholder="Re-enter new password"
                   value={newReEnteredPassword}
                   onChange={(event) => setNewReEnteredPassword(event.target.value)}
