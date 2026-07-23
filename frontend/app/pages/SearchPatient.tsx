@@ -11,7 +11,7 @@ export function SearchPatient () {
     //Missing logic to handlesubmit
 
     return(
-        <div className="flex flex-col items-center items-center">
+        <div className="flex flex-col items-center">
             <h1>Search patient by criteria</h1>
 
             <form className="flex flex-col mt-20 gap-4">
