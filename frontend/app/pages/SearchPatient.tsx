@@ -16,6 +16,7 @@ export function SearchPatient () {
 
             <form className="flex flex-col mt-20 gap-4">
                 <input 
+                className="border p-2 rounded"
                 type="text"
                 placeholder="Patient name"
                 value={patientName}
