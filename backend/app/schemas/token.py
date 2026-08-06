@@ -7,3 +7,7 @@ class Token(BaseModel):
 class LoginRequest(BaseModel):
     username: str = Field(..., example="Raven")
     password: str = Field(..., example="1234567890")
+
+class ChangePasswordRequest(BaseModel):
+    old_password: str = Field(..., example="1234567890")
+    new_password: str = Field(..., example="0987654321")
