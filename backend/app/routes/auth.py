@@ -4,7 +4,7 @@ from app.database import get_db
 from app.models.clinic_users import ClinicUsers
 from app.utils.password_verification import hash_password, verify_password
 from app.utils.token import create_access_token, get_current_user
-from app.schemas.token import LoginRequest
+from app.schemas.token import LoginRequest, ChangePasswordRequest
 from app.schemas.token import Token
 from app.schemas.clinic_users import ClinicUsersResponse
 

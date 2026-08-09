@@ -14,11 +14,40 @@ export function ChangePassword() {
     const [newPassword, setNewPassword] = useState("")
     const [newReEnteredPassword, setNewReEnteredPassword] = useState("")
 
+    const [error, setError]= useState<string | null>(null)
+    const [loading, setLoading] = useState(false)
+
+    const payload: passwordPayload = {
+    password: password,
+    newPassword: newPassword
+    }
+
+    const handlesubmit = async (event: React.SubmitEvent<HTMLFormElement>) =>{
+        event.preventDefault()
+        setLoading(true)
+        setError(null)
+        //Missing logic to compare newPassword and newReEnteredPassword
+
+        try {
+            const response = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/auth/change-password`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(payload)
+            })
+        } catch (error) {
+            setError("An error occurred while updating the password.")
+        } finally {
+            setLoading(false)
+        }
+    }
+
     return(
         <div className="flex flex-col items-center items-center">
             <h1>Update password</h1>
 
-            <form>
+            <form onSubmit={handlesubmit}>
                 <input type="text"
                  className="border p-2 rounded"
                  placeholder="Enter current password" 
