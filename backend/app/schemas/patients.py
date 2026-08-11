@@ -18,8 +18,6 @@ class PatientsBase(BaseModel):
     insurance_id: str = Field(..., example="JQO123456789")
     provider_id: int
 
-
-
 class PatientsSummary(BaseModel):
     id: int
     first_name: str
