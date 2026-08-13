@@ -1,5 +1,9 @@
 
+"use client"
+
 import {useState} from "react"
+import { useAuth } from "@/app/hooks/useAuth"
+import { useRouter } from "next/navigation"
 
 interface LoginPayload {
     username: string
@@ -8,9 +12,12 @@ interface LoginPayload {
 
 export function Login() {
 
+    const {login} = useAuth()
+    const router = useRouter()
+
     const [username, setUsername] = useState("")
     const [password, setPassword] = useState("")
-    
+
     const [loading, setLoading] = useState(false)
     const [error, setError] = useState<string | null>(null)
 
@@ -36,6 +43,10 @@ export function Login() {
             if(!response.ok){
                 throw new Error("Failed to login")
             }
+            const data = await response.json()
+            login(data.access_token)
+            router.push("/app/pages/SearchPatient")
+
         }catch (err){
             setError("Login failed");
         } finally {
@@ -57,7 +68,7 @@ export function Login() {
                  onChange={(event) => setUsername(event.target.value)}
                  required/>
 
-                 <input type="text" 
+                 <input type="password" 
                  className="border p-2 rounded"
                  placeholder="password"
                  value={password}
